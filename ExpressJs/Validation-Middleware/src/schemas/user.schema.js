@@ -29,19 +29,15 @@ export const userParamsSchema = z.object({
 
 export const userQuerySchema = z.object({
     page: z.coerce
-    .number({
-        error: "Number expected"
-    })
+    .number()
     .int()
     .positive()
     .default(1),
 
 
     limit: z.coerce
-    .number({
-        error: "Number expected"
-    })
+    .number()
     .int()
     .positive()
-    .default(10)
+    .default(3)
 })

@@ -4,6 +4,9 @@ import { createUserSchema, userParamsSchema, userQuerySchema } from "../schemas/
 
 const router = express.Router()
 
+const users = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+
 router.post(
     "/",
     validateBody(createUserSchema),
@@ -59,14 +62,26 @@ router.get(
         // insted we do
         const { page, limit } = req.validatedQuery;
 
+
+        const skip = (page - 1) * limit
+
+        const paginatedUsers = users.slice(
+            skip,
+            skip + limit
+        )
+
+        console.log("Paginated Users", paginatedUsers);
+        
+
         console.log(
             "Validated query:",
             req.query
         );
 
         res.json({
-            page,
-            limit,
+            page: page,
+            limit: limit,
+            paginatedUsers: paginatedUsers,
             
             pageType: typeof page,
             limitType: typeof limit
