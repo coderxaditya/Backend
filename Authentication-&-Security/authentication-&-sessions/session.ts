@@ -10,9 +10,9 @@ type SessionRecord = {
 
 // Map structure:
 // sessionId → SessionRecord
-const sessions = new Map<string, SessionRecord>
+const sessions = new Map<string, SessionRecord>();
 
-export function createSession (userId: string) {
+export function createSession (userId: string): string {
   // Generate a cryptographically secure, random session ID.
   const sessionId = crypto.randomBytes(32).toString('base64url')
 
@@ -103,6 +103,7 @@ export async function login(email: string, password: string) {
 
 // Take the session ID and construct the correct Set-Cookie header string.
 export function createSessionCookie(sessionId: string): string {
+  // Since your configuration is milliseconds but cookie Max-Age uses seconds:
   const maxAge = Math.floor(
     SESSION_CONFIG.absoluteLifetimeMs / 1000
   );

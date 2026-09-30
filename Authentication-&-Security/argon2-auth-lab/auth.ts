@@ -14,7 +14,7 @@ const HASH_OPTIONS = {
 // const start = performance.now()
 // await argon2.hash('test-password', HASH_OPTIONS)
 // const end = performance.now()
-// console.log(`Hash time: ${(end - start).toFixed(2)} ms`); => Hash time: 105.39 ms  (for current configuration)
+// console.log(`Hash time: ${(end - start).toFixed(2)} ms`); // => Hash time: 105.39 ms  (for current configuration)
 
 
 
