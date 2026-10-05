@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-import { registerUser } from './auth.js';
+import { registerUser } from './src/auth.js';
 import {
   issueAccessToken,
   verifyAccessToken,
   loginWithTokens,
   refresh,
   logout,
-} from './jwt.js';
+} from './src/jwt.js';
 
 const EMAIL = 'test@example.com';
 const PASSWORD = 'a-very-strong-password';
@@ -42,25 +42,29 @@ const bad = await loginWithTokens(EMAIL, 'wrong-password');
 expect('wrong password returns null', bad, null);
 
 // ---------------------------------------------------------------
-// Block 4 — tampering (runs FIRST, before any token can expire,
+// Block 4 — forgery (runs FIRST, before any token can expire,
 // so a rejection here can only mean the signature check failed)
 // ---------------------------------------------------------------
-header('Block 4: tampering');
+header('Block 4: forgery');
 
 const original = issueAccessToken('user-123');
-const [h, p, s] = original.split('.');
+const [h, , s] = original.split('.');
 
-// Flip one character in the middle of the payload segment.
-const mid = Math.floor(p.length / 2);
-const swapped = p[mid] === 'A' ? 'B' : 'A';
-const tamperedPayload = p.slice(0, mid) + swapped + p.slice(mid + 1);
-const tampered = [h, tamperedPayload, s].join('.');
+const b64 = (obj: object) => Buffer.from(JSON.stringify(obj)).toString('base64url');
+
+// Attack 1: rewrite a claim, keep the original signature.
+const claims = jwt.decode(original) as jwt.JwtPayload;
+const forged = [h, b64({ ...claims, sub: 'admin' }), s].join('.');
 
 expect('original verifies', status(verifyAccessToken(original)), 'valid');
-expect('tampered verifies', status(verifyAccessToken(tampered)), 'null');
+expect('forged (sub=admin) verifies', status(verifyAccessToken(forged)), 'null');
+console.log('decode(forged):', jwt.decode(forged));
+// ^ sub: 'admin' — readable, attacker-controlled, and decode() accepts it
 
-console.log('decode(original):', jwt.decode(original));
-console.log('decode(tampered):', jwt.decode(tampered));
+// Attack 2: alg:none, no signature at all.
+const unsigned = [b64({ alg: 'none', typ: 'JWT' }), b64({ ...claims, sub: 'admin' }), ''].join('.');
+expect('alg:none token verifies', status(verifyAccessToken(unsigned)), 'null');
+console.log('decode(alg:none):', jwt.decode(unsigned));
 // ^ still readable — decode never checks the signature
 
 // ---------------------------------------------------------------

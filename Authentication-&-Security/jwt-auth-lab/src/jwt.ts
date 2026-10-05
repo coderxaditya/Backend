@@ -33,6 +33,8 @@ export const issueAccessToken = (userId: string): string =>
     { expiresIn: ACCESS_TTL, algorithm: 'HS256' },
   );
 
+
+
 export const verifyAccessToken = (token: string): { userId: string } | null => {
   try {
     const payload = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
@@ -49,6 +51,8 @@ export const verifyAccessToken = (token: string): { userId: string } | null => {
     return null;
   }
 };
+
+
 
 export const loginWithTokens = async (
   email: string,
@@ -68,6 +72,8 @@ export const loginWithTokens = async (
 
   return { accessToken: issueAccessToken(result.userId), refreshToken };
 };
+
+
 
 export const refresh = (refreshToken: string): TokenPair | null => {
   // Production (Redis): this get + delete must be ONE atomic op (GETDEL / Lua),
@@ -95,9 +101,11 @@ export const refresh = (refreshToken: string): TokenPair | null => {
 
   return {
     accessToken: issueAccessToken(record.userId),
-    refreshToken: newRefreshToken,             // ← the fix
+    refreshToken: newRefreshToken,
   };
 };
+
+
 
 export const logout = (refreshToken: string): void => {
   refreshTokens.delete(refreshToken);
