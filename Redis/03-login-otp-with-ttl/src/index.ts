@@ -64,3 +64,21 @@ app.get("/otp/:phone/ttl", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+
+// await redis.set(otpKey(phone), otp, "EX", 30);
+// 
+// here we only use the 'EX' parameter to set the expiration time in seconds for the key in Redis.
+// But in production, you might want to use the 'NX' parameter as well, which ensures that the key is set only if it does not already exist. This prevents overwriting an existing OTP if a user requests a new one before the previous one expires. The command would look like this:
+// await redis.set(otpKey(phone), otp, "EX", 30, "NX");
+// we might also use attempts, maxAttempts, createdAt:timestamp, lastAttemptAt:timestamp and blockedUntil:timestamp etc. to make it more robust and secure.
+// here is an example of how you might implement this:
+// const otpData = {
+//   otp,
+//   attempts: 0,
+//   maxAttempts: 3,
+//   createdAt: Date.now(),
+//   lastAttemptAt: null,
+//   blockedUntil: null
+// };
+// await redis.set(otpKey(phone), JSON.stringify(otpData), "EX", 30, "NX");
