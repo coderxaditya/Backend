@@ -1,3 +1,9 @@
+// This exercise the demonstrate that how hash way is better than json way to store data in redis. 
+// Because in json way we have to store the entire object as a string, which is not efficient. 
+// But in hash way we can store the object as a hash, which is more efficient and we can also retrieve individual fields from the hash.
+// 
+// Also in redis we do not have to worry about the size of the object, because redis can handle large objects. But in json way we have to worry about the size of the object, because we have to store the entire object as a string, which can be inefficient and can cause performance issues.
+
 import express from "express";
 
 import { Redis } from "ioredis";
