@@ -4,7 +4,7 @@ import emailQueue from "./queue.ts";
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.post("/welcome-email", async (req, res) => { 
   const { to, name } = req.body;

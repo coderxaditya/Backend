@@ -1,0 +1,35 @@
+{
+  "name": "06-order-confirmation-jobs-with-bullmq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api.ts",
+  "scripts": {
+    "dev": "tsx watch src/api.ts",
+    "start": "tsx src/api.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.16.1",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.16.1",
+  "type": "module",
+  "dependencies": {
+    "bullmq": "^6.5.3",
+    "express": "^5.3.0",
+    "ioredis": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
