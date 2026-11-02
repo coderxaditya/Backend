@@ -1,3 +1,6 @@
+// worker.ts queue se jobs uthata hai, processor function run karta hai aur job complete ya fail hone ke events handle karta hai.
+
+
 import { Job, Worker } from "bullmq";
 
 import { redisConnection } from "./queue.ts";

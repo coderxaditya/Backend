@@ -1,6 +1,7 @@
 // how to make a queue in bullmq:
 // nothing much we just have to give a connection that is redis connection and a name to the queue and we are good to go
 
+// queue.ts Redis connection set karta hai aur BullMQ ki emails queue create karta hai.
 
 declare const process: { env: Record<string, string | undefined> };
 

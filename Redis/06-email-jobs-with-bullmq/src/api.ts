@@ -38,3 +38,18 @@ app.post("/welcome-email", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
+
+// Teeno files ka complete flow
+// api.ts
+
+// Client request aati hai aur job queue mein add hoti hai.
+
+
+// queue.ts
+
+// Redis connection aur emails queue manage karta hai.
+
+
+// worker.ts
+
+// Queue se job uthakar process karta hai.
